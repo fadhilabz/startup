@@ -80,6 +80,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <script src="https://pl28768859.effectivegatecpm.com/a5/89/f5/a589f510a9d7524814bb25eb6de8d0ff.js"></script>
       </main>
 
       

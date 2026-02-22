@@ -1,26 +1,24 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Warna kustom */
+  --color-primary: #135bec;
+  --color-background-light: #f6f6f8;
+  --color-background-dark: #0B0E14;
+  --color-card-dark: #161b26;
+
+  /* Font kustom */
+  --font-display: "Inter", sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Tambahkan class kustom di sini */
+@utility glass-nav {
+  background: rgba(11, 14, 20, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility hero-gradient {
+  background: radial-gradient(circle at top right, rgba(19, 91, 236, 0.15), transparent),
+              radial-gradient(circle at bottom left, rgba(19, 91, 236, 0.05), transparent);
 }

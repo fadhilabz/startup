@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Editor Kurikulum &amp; Materi - UKM Informatika</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0d59f2",
+              success: "#10b981",
+              "background-light": "#f8fafc",
+              "background-dark": "#101622",
+            },
+            fontFamily: {
+              display: ["Lexend"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+          },
+        },
+      };
+    </script>
+    <style type="text/tailwindcss">
+      body {
+        font-family: "Lexend", sans-serif;
+      }
+      .editor-canvas {
+        background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+      .block-hover:hover .block-actions {
+        opacity: 1;
+      }
+      .block-actions {
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #e2e8f0;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body class="bg-background-light text-slate-900">
+    <div class="relative flex h-screen w-full flex-col overflow-hidden">
+      <header class="z-50 bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between shadow-sm">
+        <div class="flex items-center gap-6 flex-1">
+          <div class="flex items-center gap-2 text-primary">
+            <div class="size-9 flex items-center justify-center bg-primary text-white rounded-lg">
+              <span class="material-symbols-outlined">edit_note</span>
+            </div>
+            <div class="hidden md:block">
+              <h1 class="text-slate-900 text-sm font-bold leading-none">Editor Materi</h1>
+              <p class="text-[10px] text-slate-500 font-medium">UKM Informatika Admin</p>
+            </div>
+          </div>
+          <div class="h-8 w-px bg-slate-200 hidden md:block"></div>
+          <div class="flex items-center gap-4 flex-1 max-w-2xl">
+            <input
+              class="w-full bg-slate-50 border-slate-200 rounded-lg text-sm font-semibold focus:ring-primary focus:border-primary"
+              placeholder="Judul Materi..."
+              type="text"
+              value="Sejarah &amp; Fondasi HTML"
+            />
+            <select class="bg-slate-50 border-slate-200 rounded-lg text-xs font-medium focus:ring-primary focus:border-primary min-w-[160px]">
+              <option>Pilih Kursus</option>
+              <option selected="">HTML Fundamentals</option>
+              <option>CSS Modern Layout</option>
+              <option>Javascript Essentials</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <button class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg text-sm font-bold transition-all">
+            <span class="material-symbols-outlined text-lg">visibility</span>
+            Preview
+          </button>
+          <button class="flex items-center gap-2 px-5 py-2 bg-primary text-white rounded-lg text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all">
+            <span class="material-symbols-outlined text-lg">save</span>
+            Simpan Materi
+          </button>
+        </div>
+      </header>
+      <div class="flex flex-1 overflow-hidden">
+        <aside class="w-20 lg:w-64 border-r border-slate-200 bg-white flex flex-col p-4 gap-6 overflow-y-auto custom-scrollbar">
+          <div>
+            <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 px-2">Komponen Materi</h3>
+            <div class="grid grid-cols-1 gap-2">
+              <button
+                class="flex items-center gap-3 p-3 rounded-xl border border-dashed border-slate-200 hover:border-primary hover:bg-primary/5 text-slate-600 hover:text-primary transition-all group"
+              >
+                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">notes</span>
+                <span class="text-sm font-medium hidden lg:block">Paragraf Teks</span>
+              </button>
+              <button
+                class="flex items-center gap-3 p-3 rounded-xl border border-dashed border-slate-200 hover:border-primary hover:bg-primary/5 text-slate-600 hover:text-primary transition-all group"
+              >
+                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">image</span>
+                <span class="text-sm font-medium hidden lg:block">Gambar / Video</span>
+              </button>
+              <button
+                class="flex items-center gap-3 p-3 rounded-xl border border-dashed border-slate-200 hover:border-primary hover:bg-primary/5 text-slate-600 hover:text-primary transition-all group"
+              >
+                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">code_blocks</span>
+                <span class="text-sm font-medium hidden lg:block">Code Editor</span>
+              </button>
+              <button
+                class="flex items-center gap-3 p-3 rounded-xl border border-dashed border-slate-200 hover:border-primary hover:bg-primary/5 text-slate-600 hover:text-primary transition-all group"
+              >
+                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">view_column</span>
+                <span class="text-sm font-medium hidden lg:block">Multi Kolom</span>
+              </button>
+              <button
+                class="flex items-center gap-3 p-3 rounded-xl border border-dashed border-slate-200 hover:border-primary hover:bg-primary/5 text-slate-600 hover:text-primary transition-all group"
+              >
+                <span class="material-symbols-outlined group-hover:scale-110 transition-transform">format_quote</span>
+                <span class="text-sm font-medium hidden lg:block">Quote / Alert</span>
+              </button>
+            </div>
+          </div>
+          <div class="mt-auto pt-6 border-t border-slate-100">
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-bold text-slate-400 uppercase">Status</span>
+                <span class="size-2 bg-success rounded-full"></span>
+              </div>
+              <p class="text-xs font-semibold text-slate-700">Tersimpan Otomatis</p>
+              <p class="text-[10px] text-slate-400 mt-1">14:30 WIB - 12 Okt 2024</p>
+            </div>
+          </div>
+        </aside>
+        <main class="flex-1 overflow-y-auto editor-canvas p-10 custom-scrollbar">
+          <div class="max-w-4xl mx-auto space-y-6 pb-20">
+            <div class="relative group block-hover bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+              <div class="block-actions absolute -right-12 top-0 flex flex-col gap-2">
+                <button class="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-primary shadow-sm">
+                  <span class="material-symbols-outlined text-sm">drag_indicator</span>
+                </button>
+                <button class="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-red-500 shadow-sm"><span class="material-symbols-outlined text-sm">delete</span></button>
+              </div>
+              <div class="flex items-center gap-2 mb-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                <span class="material-symbols-outlined text-xs">notes</span>
+                Rich Text Block
+              </div>
+              <div class="flex gap-2 mb-4 border-b border-slate-100 pb-3">
+                <button class="p-1.5 hover:bg-slate-100 rounded text-slate-600"><span class="material-symbols-outlined text-lg">format_bold</span></button>
+                <button class="p-1.5 hover:bg-slate-100 rounded text-slate-600"><span class="material-symbols-outlined text-lg">format_italic</span></button>
+                <button class="p-1.5 hover:bg-slate-100 rounded text-slate-600"><span class="material-symbols-outlined text-lg">format_list_bulleted</span></button>
+                <button class="p-1.5 hover:bg-slate-100 rounded text-slate-600"><span class="material-symbols-outlined text-lg">link</span></button>
+              </div>
+              <textarea class="w-full border-none focus:ring-0 p-0 text-slate-600 leading-relaxed placeholder:text-slate-300 resize-none" rows="4">
+Semuanya bermula di CERN (Organisasi Riset Nuklir Eropa) di Swiss. Pada tahun 1989-1990, seorang ilmuwan komputer bernama Tim Berners-Lee mengusulkan sebuah sistem manajemen informasi.</textarea
+              >
+            </div>
+            <div class="relative group block-hover bg-white/50 rounded-2xl border border-dashed border-slate-300 p-1">
+              <div class="block-actions absolute -right-12 top-0 flex flex-col gap-2">
+                <button class="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-primary shadow-sm">
+                  <span class="material-symbols-outlined text-sm">drag_indicator</span>
+                </button>
+                <button class="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-red-500 shadow-sm"><span class="material-symbols-outlined text-sm">delete</span></button>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white rounded-xl border border-slate-200 p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase">Kolom 1</span>
+                    <button class="text-slate-300 hover:text-primary"><span class="material-symbols-outlined text-sm">settings</span></button>
+                  </div>
+                  <div class="aspect-video bg-slate-50 rounded-lg border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                    <span class="material-symbols-outlined text-3xl mb-2">upload</span>
+                    <p class="text-[10px] font-medium">Drop Media Here</p>
+                  </div>
+                </div>
+                <div class="bg-white rounded-xl border border-slate-200 p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase">Kolom 2</span>
+                    <button class="text-slate-300 hover:text-primary"><span class="material-symbols-outlined text-sm">settings</span></button>
+                  </div>
+                  <textarea class="w-full text-xs border-none focus:ring-0 p-0 text-slate-500 leading-relaxed resize-none" placeholder="Tambahkan deskripsi..." rows="5"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="relative group block-hover bg-[#1e293b] rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+              <div class="block-actions absolute -right-12 top-0 flex flex-col gap-2">
+                <button class="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-primary shadow-sm">
+                  <span class="material-symbols-outlined text-sm">drag_indicator</span>
+                </button>
+                <button class="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-red-500 shadow-sm"><span class="material-symbols-outlined text-sm">delete</span></button>
+              </div>
+              <div class="flex items-center justify-between px-5 py-3 bg-slate-800 border-b border-slate-700">
+                <div class="flex items-center gap-4">
+                  <div class="flex gap-1.5">
+                    <div class="size-2.5 bg-red-500/50 rounded-full"></div>
+                    <div class="size-2.5 bg-yellow-500/50 rounded-full"></div>
+                    <div class="size-2.5 bg-green-500/50 rounded-full"></div>
+                  </div>
+                  <select class="bg-slate-700 border-none rounded text-[10px] font-bold text-slate-300 py-0.5 px-2 focus:ring-0">
+                    <option>HTML</option>
+                    <option>CSS</option>
+                    <option>JavaScript</option>
+                  </select>
+                </div>
+                <input class="bg-transparent border-none text-[10px] text-slate-500 font-mono focus:ring-0 py-0 text-right w-24" type="text" value="index.html" />
+              </div>
+              <div class="p-6 font-mono text-sm">
+                <div class="flex gap-4">
+                  <div class="text-slate-600 text-right select-none">1<br />2<br />3<br />4<br />5</div>
+                  <textarea class="flex-1 bg-transparent border-none focus:ring-0 p-0 text-slate-300 resize-none h-24 overflow-hidden" spellcheck="false">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="id"&gt;
+&lt;head&gt;
+    &lt;title&gt;Hello World&lt;/title&gt;&lt;/head&gt;&lt;/html&gt;</textarea
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center justify-center py-4 group">
+              <button
+                class="flex items-center gap-2 px-6 py-3 rounded-full border-2 border-dashed border-slate-200 text-slate-400 hover:border-primary hover:text-primary hover:bg-white transition-all"
+              >
+                <span class="material-symbols-outlined">add_circle</span>
+                <span class="text-sm font-bold">Tambah Blok Baru</span>
+              </button>
+            </div>
+          </div>
+        </main>
+        <aside class="hidden xl:flex w-80 border-l border-slate-200 bg-white flex-col overflow-y-auto custom-scrollbar">
+          <div class="p-6">
+            <h3 class="text-xs font-bold text-slate-900 mb-6">Pengaturan Modul</h3>
+            <div class="space-y-6">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Tingkat Kesulitan</label>
+                <div class="grid grid-cols-3 gap-2">
+                  <button class="py-2 text-[10px] font-bold rounded-lg border border-primary bg-primary/5 text-primary">Beginner</button>
+                  <button class="py-2 text-[10px] font-bold rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50">Medium</button>
+                  <button class="py-2 text-[10px] font-bold rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50">Expert</button>
+                </div>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Estimasi Durasi (Menit)</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400 text-lg">schedule</span>
+                  <input class="w-full pl-10 bg-slate-50 border-slate-200 rounded-lg text-sm focus:ring-primary focus:border-primary" type="number" value="15" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">SEO Slug</label>
+                <div class="flex items-center px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg">
+                  <span class="text-xs text-slate-400">/html/</span>
+                  <input class="flex-1 bg-transparent border-none text-xs font-medium p-0 focus:ring-0 text-slate-700" type="text" value="sejarah-fondasi-html" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Tags</label>
+                <div class="flex flex-wrap gap-2 mb-2">
+                  <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-[10px] font-bold flex items-center gap-1">
+                    HTML <button class="material-symbols-outlined text-[12px]">close</button>
+                  </span>
+                  <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-[10px] font-bold flex items-center gap-1">
+                    Web Dasar <button class="material-symbols-outlined text-[12px]">close</button>
+                  </span>
+                </div>
+                <input class="w-full bg-slate-50 border-slate-200 rounded-lg text-xs focus:ring-primary focus:border-primary" placeholder="Tambah tag..." type="text" />
+              </div>
+              <div class="pt-6 border-t border-slate-100">
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-xs font-bold text-slate-700">Publikasikan Materi</span>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input checked="" class="sr-only peer" type="checkbox" />
+                    <div
+                      class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"
+                    ></div>
+                  </label>
+                </div>
+                <button class="w-full py-3 border-2 border-red-100 text-red-500 rounded-xl text-xs font-bold hover:bg-red-50 transition-colors">Hapus Draf Materi</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </body>
+</html>

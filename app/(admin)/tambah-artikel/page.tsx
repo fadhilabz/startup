@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import Image from "next/image";
 
 // Struktur data blok konten
 type ContentBlock = {
@@ -166,7 +167,7 @@ export default function AdminTambahArtikel() {
               />
               {featuredImage && (
                 <div className="relative group rounded-3xl overflow-hidden shadow-2xl">
-                   <img src={featuredImage} className="w-full aspect-video object-cover" alt="Preview" />
+                   <Image src={featuredImage} className="w-full aspect-video object-cover" alt="Preview" />
                 </div>
               )}
               <input 
@@ -179,9 +180,9 @@ export default function AdminTambahArtikel() {
             </div>
 
             <div className="flex items-center justify-center py-4">
-              <div className="h-[1px] w-full bg-slate-200 dark:bg-slate-800"></div>
+              <div className="h-px w-full bg-slate-200 dark:bg-slate-800"></div>
               <span className="px-4 text-[10px] font-black text-slate-300 uppercase tracking-widest">Konten</span>
-              <div className="h-[1px] w-full bg-slate-200 dark:bg-slate-800"></div>
+              <div className="h-px w-full bg-slate-200 dark:bg-slate-800"></div>
             </div>
 
             {/* RENDER SEMUA BLOK SECARA BERURUTAN */}
@@ -190,7 +191,7 @@ export default function AdminTambahArtikel() {
                 <div key={block.id} className="relative group animate-in fade-in slide-in-from-bottom-4 duration-500">
                   
                   {block.type === "heading" ? (
-                    <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border-l-[12px] border-blue-600 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div className="bg-white dark:bg-slate-900 p-8 rounded-4xl border-l-12  border border-slate-200 dark:border-slate-800 shadow-sm">
                        <label className="text-[9px] font-black uppercase text-blue-600 mb-2 block tracking-widest">Sub-Heading (Poin Pembahasan)</label>
                        <input 
                         type="text"
@@ -204,7 +205,7 @@ export default function AdminTambahArtikel() {
                     <textarea
                       value={block.value}
                       onChange={(e) => updateBlock(block.id, e.target.value)}
-                      className="w-full min-h-[180px] p-10 bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:outline-none text-xl leading-[1.8] dark:text-slate-300 shadow-sm"
+                      className="w-full min-h-45 p-10 bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:outline-none text-xl leading-[1.8] dark:text-slate-300 shadow-sm"
                       placeholder="Tulis cerita atau penjelasan detail di sini..."
                     />
                   ) : (
@@ -216,7 +217,7 @@ export default function AdminTambahArtikel() {
                         placeholder="Link Gambar Pendukung..." 
                         className="w-full p-4 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm outline-none shadow-inner" 
                       />
-                      {block.value && <img src={block.value} className="rounded-2xl w-full max-h-[500px] object-cover shadow-lg" alt="Blok Media" />}
+                      {block.value && <Image src={block.value} className="rounded-2xl w-full max-h-125 object-cover shadow-lg" alt="Blok Media" />}
                       <input 
                         type="text" 
                         value={block.caption} 
